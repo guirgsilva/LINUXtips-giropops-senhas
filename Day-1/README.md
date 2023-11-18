@@ -8,25 +8,25 @@ Este projeto consiste em uma aplicação Flask chamada "giropops-senhas" que se 
 
    O Dockerfile contém instruções para criar uma imagem Docker para a aplicação Flask. O conteúdo do Dockerfile é o seguinte:
 
-Use uma imagem oficial do Python como imagem pai
-FROM python:3.11
+# Use uma imagem oficial do Python Alpine como imagem pai
+FROM python:3.11-alpine
 
-Defina o diretório de trabalho no contêiner
+# Defina o diretório de trabalho no contêiner
 WORKDIR /app
 
-Adicione os arquivos do aplicativo ao contêiner
+# Adicione os arquivos do aplicativo ao contêiner
 ADD . /app
 
-Instale as dependências do aplicativo
+# Instale as dependências do aplicativo
 RUN pip install --no-cache-dir -r requirements.txt
 
-Inicie o servidor HTTP do Prometheus em um processo separado
+# Inicie o servidor HTTP do Prometheus em um processo separado
 RUN echo 'from prometheus_client import start_http_server; start_http_server(8089)' > prometheus_server.py
 
-Faça o contêiner ouvir na porta 8088 em tempo de execução
+# Faça o contêiner ouvir na porta 8088 em tempo de execução
 EXPOSE 8088
 
-Inicie o aplicativo Flask e o servidor HTTP do Prometheus em paralelo
+# Inicie o aplicativo Flask e o servidor HTTP do Prometheus em paralelo
 CMD ["sh", "-c", "python prometheus_server.py & python app.py"]
 
 
